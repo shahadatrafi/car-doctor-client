@@ -31,6 +31,9 @@ const Services = () => {
                 ></ServicesCard>)
             }
         </div>
+        <div className='text-center mt-12'>
+        <button className="btn btn-lg btn-outline border-orange-500 text-orange-500 hover:bg-[#ff2a0000] hover:border-orange-500 hover:text-orange-500 ">Latest Project</button>
+        </div>
         </div>
     );
 };
