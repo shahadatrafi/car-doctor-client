@@ -1,12 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import img from '../../assets/images/login/login.svg'
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
+import { updateProfile } from 'firebase/auth';
 
 const SignUp = () => {
 
+    const {userSignUp} = useContext(AuthContext);
+
     const handleSignUp = event => {
         event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log(name, email, password);
+
+        userSignUp(email, password)
+        .then(res => {
+            const user = res.user;;
+            console.log(user);
+            updateProfile(user, {
+                displayName: name
+            })
+            .then(res => {
+                console.log('profile Updated');
+            })
+            .catch(err=> {
+                console.log(err.message);
+            })
+        })
+        .catch(err => {
+            console.error(err.message);
+        })
+
     }
 
     return (
