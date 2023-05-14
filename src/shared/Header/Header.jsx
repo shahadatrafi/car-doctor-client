@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import logo from '../../assets/logo.svg'
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const Header = () => {
+
+  const { user, userLogOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    userLogOut()
+      .then(() => { })
+      .catch(err => {
+      console.log(err.message)
+    })
+  }
 
   const navigation = <>
     <li><Link to="/">Home</Link></li>
@@ -10,6 +21,12 @@ const Header = () => {
     <li><Link to="/services">Services</Link></li>
     <li><Link to="/blog">Blog</Link></li>
     <li><Link to="/contact">Contact</Link></li>
+    {user ? <>
+      <li><Link to="/orders">Orders</Link></li>
+      <li><Link><button onClick={handleLogOut}>Log out</button></Link></li>
+    </> :
+    <li><Link to="/login">Login</Link></li>
+    }
   </>
 
   return (

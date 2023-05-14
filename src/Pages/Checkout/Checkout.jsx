@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2'
@@ -8,19 +8,23 @@ const Checkout = () => {
     const service = useLoaderData();
     const { service_id, title, price, img } = service;
 
-    const user = createContext(AuthContext);
-
+    const {user} = useContext(AuthContext);
+    const userEmail = user?.email;
+    
     const handleOrder = event => {
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
+        
         const service = form.service.value;
         const date = form.date.value;
         const duePrice = price;
         const orderItem = {
             customerName: name,
+            CustomerEmail: userEmail,
             serviceName: service,
             serviceId: service_id,
+            img: img,
             date: date,
             duePrice: duePrice,
         }
