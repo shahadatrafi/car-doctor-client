@@ -9,9 +9,12 @@ const Header = () => {
 
   const handleLogOut = () => {
     userLogOut()
-      .then(() => { })
+      .then(() => {
+        localStorage.removeItem('car-access-token');
+       })
       .catch(err => {
-      console.log(err.message)
+        console.log(err.message);
+        
     })
   }
 

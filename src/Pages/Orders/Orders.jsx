@@ -2,18 +2,34 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import OrderItems from './OrderItems';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
 
     const { user } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
 
     const url = `http://localhost:5000/checkout?email=${user?.email}`;
 
     useEffect(() => {
-        fetch(url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('car-access-token')}`
+            }
+        })
             .then(res => res.json())
-            .then(data => setOrders(data))
+            .then(data => {
+                console.log(data);
+                // setOrders(data);
+                if (!data.error) {
+                    setOrders(data);    
+                }
+                else {
+                    navigate('/');
+                }
+            })
     }, []);
 
     const handleDelete = id => {
